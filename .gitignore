@@ -1,0 +1,6 @@
+# GitIgnore for aruCore
+/.idea/
+/.gradle/
+/build/
+/out/
+*.iml
