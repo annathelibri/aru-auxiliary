@@ -31,4 +31,4 @@ RUN chmod +x /bin/jattach
 
 COPY --from=builder /aru-auxiliary /aru-auxiliary
 
-CMD ["java", "-jar", "aru-auxiliary.jar"]
+CMD ["jrt/bin/java", "-jar", "aru-auxiliary.jar"]
