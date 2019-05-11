@@ -12,4 +12,4 @@ WORKDIR /aru-auxiliary
 
 COPY aru-auxiliary-${version}-all.jar aru-auxiliary.jar
 
-CMD ["java", "-jar", "aru.jar"]
+CMD ["java", "-jar", "aru-auxiliary.jar"]
