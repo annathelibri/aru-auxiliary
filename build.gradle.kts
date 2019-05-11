@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "pw.aru"
-version = "1.1"
+version = "1.1.1"
 
 repositories {
     jcenter()
@@ -24,7 +24,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
-    implementation("pw.aru:aruCore:1.0")
+    implementation("pw.aru:aruCore:1.0.1")
 
     implementation("org.kodein.di:kodein-di-generic-jvm:6.2.0")
     implementation("pw.aru.libs:kodein-jit-bindings:2.2")

@@ -1,6 +1,7 @@
 package pw.aru.auxiliary
 
 import mu.KotlinLogging.logger
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -28,13 +29,7 @@ fun main() {
         installJit()
         bindSelf()
 
-        bind<HttpClient>() with singleton {
-            HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .executor(Executors.newFixedThreadPool(16, threadGroupBasedFactory("HttpClient")))
-                .build()
-        }
-
+        bind<OkHttpClient>() with singleton { OkHttpClient() }
         bind<AruDB>() with singleton { AruDB(AruSide.AUXILIARY, 0, "redis://redis:6379") }
         bind<AruIO>() with singleton { instance<AruDB>().io() }
     }
