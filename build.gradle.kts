@@ -1,3 +1,4 @@
+import com.palantir.gradle.docker.DockerExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -5,6 +6,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "5.0.0"
     id("com.github.ben-manes.versions") version "0.21.0"
+    id("com.palantir.docker") version "0.21.0"
 }
 
 group = "pw.aru"
@@ -42,4 +44,15 @@ tasks.withType<KotlinCompile> {
 
 configure<ApplicationPluginConvention> {
     mainClassName = "pw.aru.auxiliary.AuxiliaryBootstrapKt"
+}
+
+val shadowJar by tasks.getting
+
+configure<DockerExtension> {
+    this.name = "adriantodt/aru-auxiliary:$version"
+
+    dependsOn(shadowJar)
+    files(shadowJar.outputs)
+
+    buildArgs(mapOf("version" to version.toString(), "jattachVersion" to "v1.5"))
 }
