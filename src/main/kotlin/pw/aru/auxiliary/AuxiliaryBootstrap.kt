@@ -35,7 +35,7 @@ fun main() {
                 .build()
         }
 
-        bind<AruDB>() with singleton { AruDB(AruSide.AUXILIARY, 0) }
+        bind<AruDB>() with singleton { AruDB(AruSide.AUXILIARY, 0, "redis://redis:6379") }
         bind<AruIO>() with singleton { instance<AruDB>().io() }
     }
 
