@@ -24,7 +24,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
-    implementation("pw.aru:aruCore:1.0.1")
+    implementation("pw.aru:aruCore:1.1")
 
     implementation("org.kodein.di:kodein-di-generic-jvm:6.2.0")
     implementation("pw.aru.libs:kodein-jit-bindings:2.2")
@@ -50,10 +50,10 @@ val shadowJar by tasks.getting
 
 configure<DockerExtension> {
     this.name = "adriantodt/aru-auxiliary:$version"
-
+    
     dependsOn(shadowJar)
     files(shadowJar.outputs)
-    files("jlink.sh")
-
+    copySpec.from("runDir").into("run")
+    
     buildArgs(mapOf("version" to version.toString(), "jattachVersion" to "v1.5"))
 }

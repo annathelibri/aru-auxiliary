@@ -4,8 +4,8 @@ ARG version
 
 WORKDIR /aru-auxiliary
 
-COPY aru-auxiliary-${version}-all.jar aru-auxiliary.jar
-COPY jlink.sh jlink.sh
+COPY run/aru-auxiliary-${version}-all.jar aru-auxiliary.jar
+COPY run/jlink.sh jlink.sh
 
 ENV ADDITIONAL_MODULES=jdk.crypto.ec
 
@@ -29,6 +29,7 @@ RUN wget "https://www.archlinux.org/packages/core/x86_64/zlib/download" -O /tmp/
 RUN wget https://github.com/apangin/jattach/releases/download/$jattachVersion/jattach -O /bin/jattach
 RUN chmod +x /bin/jattach
 
+COPY run/aru.java.security aru.java.security
 COPY --from=builder /aru-auxiliary /aru-auxiliary
 
-CMD ["jrt/bin/java", "-jar", "aru-auxiliary.jar"]
+CMD ["jrt/bin/java", "-Djava.security.properties=./aru.java.security", "-jar", "aru-auxiliary.jar"]
