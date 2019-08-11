@@ -15,17 +15,17 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
     companion object : KLogging()
 
     object Tokens {
-        // Discord Bot List - https://discordbots.org/
-        val DBL_TOKEN by environment
-
         // Discord Bots - https://discord.bots.gg/
         val DPW_TOKEN by environment
 
-        // Bots for Discord - https://botsfordiscord.com/
-        val BFD_TOKEN by environment
+        // Discord Bot List - https://discordbots.org/
+        val DBL_TOKEN by environment
 
         // Botlist.space - https://botlist.space/
         val BLS_TOKEN by environment
+
+        // Bots for Discord - https://botsfordiscord.com/
+        val BFD_TOKEN by environment
 
         // Divine Discord Bots - https://divinediscordbots.com/
         val DDB_TOKEN by environment
@@ -38,9 +38,6 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
 
         // Discord Bot World - https://discordbot.world/
         val DBW_TOKEN by environment
-
-        // Discord Bots Group - https://discordbots.group/
-        val DBG_TOKEN by environment
 
         // Discord Best Bots - https://discordsbestbots.xyz/
         val DBB_TOKEN by environment
@@ -57,23 +54,6 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
 
 
     fun handleEvent(botId: String, guildCount: Long) {
-        // DBL
-        try {
-
-
-
-            httpClient.newCall {
-                url("https://discordbots.org/api/bots/$botId/stats")
-                header("Authorization", Tokens.DBL_TOKEN)
-                header("Content-Type", "application/json")
-                post(
-                    RequestBody.create(jsonType, jsonStringOf("server_count" to guildCount))
-                )
-            }.execute().close()
-        } catch (t: Exception) {
-            handleStatsException("DBL", t)
-        }
-
         // DBots
         try {
             httpClient.newCall {
@@ -88,17 +68,18 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
             handleStatsException("Dbots.PW", t)
         }
 
-        // Bots for Discord
+        // DBL
         try {
             httpClient.newCall {
-                url("https://botsfordiscord.com/api/bot/$botId")
-                header("Authorization", Tokens.BFD_TOKEN)
+                url("https://discordbots.org/api/bots/$botId/stats")
+                header("Authorization", Tokens.DBL_TOKEN)
+                header("Content-Type", "application/json")
                 post(
-                    RequestBody.create(jsonType, jsonStringOf("count" to guildCount))
+                    RequestBody.create(jsonType, jsonStringOf("server_count" to guildCount))
                 )
             }.execute().close()
         } catch (t: Exception) {
-            handleStatsException("BotsForDiscord", t)
+            handleStatsException("DBL", t)
         }
 
         // Botlist.space
@@ -112,6 +93,19 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
             }.execute().close()
         } catch (t: Exception) {
             handleStatsException("Botlist.Space", t)
+        }
+
+        // Bots for Discord
+        try {
+            httpClient.newCall {
+                url("https://botsfordiscord.com/api/bot/$botId")
+                header("Authorization", Tokens.BFD_TOKEN)
+                post(
+                    RequestBody.create(jsonType, jsonStringOf("count" to guildCount))
+                )
+            }.execute().close()
+        } catch (t: Exception) {
+            handleStatsException("BotsForDiscord", t)
         }
 
         // Divine Discord Bots
@@ -164,19 +158,6 @@ class StatsHandler(override val kodein: Kodein) : KodeinAware {
             }.execute().close()
         } catch (t: Exception) {
             handleStatsException("DiscordBotWorld", t)
-        }
-
-        //DiscordBotsGroup
-        try {
-            httpClient.newCall {
-                url("https://api.discordbots.group/v1/bot/$botId")
-                header("Authorization", Tokens.DBG_TOKEN)
-                post(
-                    RequestBody.create(jsonType, jsonStringOf("count" to guildCount))
-                )
-            }.execute().close()
-        } catch (t: Exception) {
-            handleStatsException("DiscordBotsGroup", t)
         }
 
         //DiscordsBestBots

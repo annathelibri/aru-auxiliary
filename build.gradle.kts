@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "pw.aru"
-version = "1.1.1"
+version = "1.2"
 
 repositories {
     jcenter()
@@ -21,21 +21,21 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
+    compile(kotlin("stdlib-jdk8"))
+    compile(kotlin("reflect"))
 
-    implementation("pw.aru:aruCore:1.1")
+    compile("pw.aru:aruCore:1.2")
 
-    implementation("org.kodein.di:kodein-di-generic-jvm:6.2.0")
-    implementation("pw.aru.libs:kodein-jit-bindings:2.2")
+    compile("org.kodein.di:kodein-di-generic-jvm:6.2.0")
+    compile("pw.aru.libs:kodein-jit-bindings:2.2")
 
-    implementation("pw.aru.libs:properties:1.2")
-    implementation("pw.aru.libs:patreon-webhooks-java:1.1")
+    compile("pw.aru.libs:properties:1.2")
+    compile("pw.aru.libs:patreon-webhooks-java:1.1")
 
     //Jackson
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.8")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.8")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
 }
 
 tasks.withType<KotlinCompile> {
@@ -46,14 +46,14 @@ configure<ApplicationPluginConvention> {
     mainClassName = "pw.aru.auxiliary.AuxiliaryBootstrapKt"
 }
 
-val shadowJar by tasks.getting
-
 configure<DockerExtension> {
     this.name = "adriantodt/aru-auxiliary:$version"
-    
+
+    val shadowJar by tasks.getting
+
     dependsOn(shadowJar)
     files(shadowJar.outputs)
     copySpec.from("runDir").into("run")
-    
-    buildArgs(mapOf("version" to version.toString(), "jattachVersion" to "v1.5"))
+
+    buildArgs(mapOf("version" to version.toString()))
 }

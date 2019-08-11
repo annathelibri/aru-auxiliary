@@ -15,10 +15,7 @@ import pw.aru.io.AruIO
 import pw.aru.libs.kodein.jit.installJit
 import pw.aru.libs.patreonwebhooks.PatreonWebhooksJava
 import pw.aru.sides.AruSide
-import pw.aru.utils.extensions.lang.threadGroupBasedFactory
 import pw.aru.utils.extensions.lib.bindSelf
-import java.net.http.HttpClient
-import java.util.concurrent.Executors
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.thread
 
